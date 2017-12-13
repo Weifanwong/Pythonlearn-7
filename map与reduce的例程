@@ -1,0 +1,95 @@
+#reduce()配合map()，把str转换为int的函数：
+from functools import reduce
+
+ss='12345'
+def str2num(ss):
+
+    def fn(x,y):
+        return 10*x+y
+
+    def str2int(s):
+        digits = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
+        return digits[s]
+
+    return reduce(fn, map(str2int, ss))
+
+t=str2num(ss)
+print(t)
+
+#利用map()函数，把用户输入的不规范的英文名字，变为首字母大写，其他小写的规范名字。
+# 输入：['adam', 'LISA', 'barT']，输出：['Adam', 'Lisa', 'Bart']：
+
+L=['asdD','AAdd','AsD']
+def Normalized(ss):
+    return str.capitalize(ss)
+
+t=map(Normalized,L)
+print(list(t))
+
+#请编写一个prod()函数，可以接受一个list并利用reduce()求积：
+from functools import reduce
+L=[3,5,7,9]
+
+def prob(L):
+    def multi(x,y):
+        return x*y
+    return reduce(multi,L)
+
+print(prob(L))
+
+
+
+from functools import reduce
+
+s='1234.4567'
+
+
+def integral_part_num(s):
+    i = 0
+    for b in s:
+        if b == '.':
+            break
+        i=i+1
+    return i
+
+
+def float_part_num(s):
+    j = len(s) - integral_part_num(s) - 1
+    return j
+
+
+#利用map和reduce编写一个str2float函数，
+# 把字符串'123.456'转换成浮点数123.456：
+
+def str2float(s):
+
+    def char2num(s):
+        digits = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
+        return digits[s]
+
+    def fn1(x,y):
+        return x*10+y
+
+    def fn2(x,y):
+        return x*0.1+y
+
+    def integral_part(s):
+
+
+        return s[:integral_part_num(s)]
+
+    def float_part(s):
+
+        return s[-float_part_num(s):]
+
+    integ=integral_part(s)
+    floot=float_part(s)
+
+    t1=reduce(fn1,map(char2num,integ))
+    t2=reduce(fn2,map(char2num,floot[::-1]))
+    return t1+t2*0.1
+
+print(str2float(s))
+
+
+
